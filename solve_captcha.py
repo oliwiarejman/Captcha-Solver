@@ -1,9 +1,11 @@
 import os
 import numpy as np
 from PIL import Image
-from keras.src.utils import img_to_array
+import keras
 from keras.src.models import load_model
+from keras.src.utils import img_to_array
 from preprocess import preprocess_data
+from train import train_model
 
 def solve_captcha(img_path, model, label_encoder):
     image = Image.open(img_path).convert('L')

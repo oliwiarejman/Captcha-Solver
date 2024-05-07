@@ -23,12 +23,10 @@ def preprocess_data(data_path):
     X = X.astype('float32') / 255.0
 
     label_encoder = LabelEncoder()
-    onehot_encoder = OneHotEncoder(categories='auto')
     y_encoded = label_encoder.fit_transform(y)
-    y_encoded = y_encoded.reshape(len(y_encoded), 1)
-    y = onehot_encoder.fit_transform(y_encoded)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
     return X_train, X_test, y_train, y_test, label_encoder
+
 
