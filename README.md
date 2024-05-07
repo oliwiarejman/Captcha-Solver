@@ -1,0 +1,1 @@
+Projekt na Inteligencje Obliczeniową.
