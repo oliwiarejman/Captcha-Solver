@@ -4,6 +4,8 @@ from keras.src.optimizers import Adam
 from preprocess import preprocess_data
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 def train_model(X_train, X_test, y_train, y_test):
     model = Sequential()
@@ -60,6 +62,15 @@ def plot_training_history(history):
     plt.legend(['Train', 'Test'], loc='upper left')
     plt.show()
 
+def plot_confusion_matrix(y_true, y_pred, labels):
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=labels, yticklabels=labels)
+    plt.title("Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
+    plt.show()
+
 if __name__ == "__main__":
     data_path = "samples"
     X_train, X_test, y_train, y_test, label_encoder = preprocess_data(data_path)
@@ -70,3 +81,7 @@ if __name__ == "__main__":
     y_pred = trained_model.predict(X_test)
     y_pred_labels = np.argmax(y_pred, axis=1)
     print("Predictions:", y_pred_labels)
+
+    # Wizualizacja macierzy błędu
+    labels = [str(label) for label in label_encoder.classes_]
+    plot_confusion_matrix(y_test, y_pred_labels, labels)

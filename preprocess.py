@@ -5,20 +5,28 @@ from keras.src.utils import img_to_array
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
-def preprocess_data(data_path, image_size=(30, 50), test_size=0.2, random_state=42):
+def preprocess_data(data_path, image_size=(30, 50), test_size=0.2, random_state=42, save_dir="processed_images"):
     X = []
     y = []
+
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
     for filename in os.listdir(data_path):
         if filename.endswith(".png"):
             img_path = os.path.join(data_path, filename)
             image = Image.open(img_path).convert('L')
-            x = [img_to_array(image.crop((image_size[0]*i, 0, image_size[0]*(i+1), image_size[1]))) for i in range(len(filename[:-4]))]
-            X.extend(x)
-            y.extend([c for c in filename[:-4]])
+            # Przetwarzanie i zapisywanie obrazów
+            for i, char in enumerate(filename[:-4]):
+                cropped_image = image.crop((image_size[0]*i, 0, image_size[0]*(i+1), image_size[1]))
+                cropped_image.save(os.path.join(save_dir, f"{filename[:-4]}_{i}.png"))
+                # Dodanie przetworzonych obrazów do listy X
+                X.append(img_to_array(cropped_image))
+                # Dodanie etykiet do listy y
+                y.append(char)
 
     X = np.array(X)
-    y = np.array(y)
+    y = np.array(y) 
 
     X = X.astype('float32') / 255.0
 
@@ -30,4 +38,4 @@ def preprocess_data(data_path, image_size=(30, 50), test_size=0.2, random_state=
     return X_train, X_test, y_train_encoded, y_test_encoded, label_encoder
 
 data_path = "samples"
-X_train, X_test, y_train, y_test, label_encoder = preprocess_data(data_path)
+X_train, X_test, y_train, y_test, label_encoder = preprocess_data(data_path, save_dir="processed_images")
