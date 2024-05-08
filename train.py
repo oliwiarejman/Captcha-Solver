@@ -2,6 +2,8 @@ from keras.src.models import Sequential
 from keras.src.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Activation
 from keras.src.optimizers import Adam
 from preprocess import preprocess_data
+import numpy as np
+import matplotlib.pyplot as plt
 
 def train_model(X_train, X_test, y_train, y_test):
     model = Sequential()
@@ -41,8 +43,30 @@ def train_model(X_train, X_test, y_train, y_test):
 
     return model, history
 
+def plot_training_history(history):
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('Model accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
+
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
 
 if __name__ == "__main__":
     data_path = "samples"
     X_train, X_test, y_train, y_test, label_encoder = preprocess_data(data_path)
     trained_model, training_history = train_model(X_train, X_test, y_train, y_test)
+
+    plot_training_history(training_history)
+
+    y_pred = trained_model.predict(X_test)
+    y_pred_labels = np.argmax(y_pred, axis=1)
+    print("Predictions:", y_pred_labels)

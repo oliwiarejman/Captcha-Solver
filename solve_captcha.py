@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 # from keras.src.models import load_model
 from preprocess import preprocess_data
-from train import train_model
+from train import train_model, trained_model
 
 def solve_captchas(data_path, model, label_encoder, output_file):
     filenames = os.listdir(data_path)
