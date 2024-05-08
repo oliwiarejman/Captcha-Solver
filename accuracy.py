@@ -7,7 +7,7 @@ def calculate_accuracy(results_file):
 
     for line in lines:
         filename, predicted_text = line.strip().split(': ')
-        if filename == predicted_text:  # Jeśli przewidziana etykieta jest taka sama jak nazwa pliku
+        if filename == predicted_text:
             correct_predictions += 1
 
     accuracy = (correct_predictions / total_samples) * 100

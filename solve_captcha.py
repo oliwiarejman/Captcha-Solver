@@ -1,9 +1,7 @@
 import os
 import numpy as np
 from PIL import Image
-import keras
 # from keras.src.models import load_model
-from keras.src.utils import img_to_array
 from preprocess import preprocess_data
 from train import train_model
 
@@ -13,7 +11,7 @@ def solve_captchas(data_path, model, label_encoder, output_file):
         for filename in filenames:
             img_path = os.path.join(data_path, filename)
             image = Image.open(img_path).convert('L')
-            x = [img_to_array(image.crop((30*i, 0, 30*(i+1), 50))) for i in range(5)]
+            x = [np.array(image.crop((30*i, 0, 30*(i+1), 50))) for i in range(5)]
             X_pred = np.array(x)
             X_pred = X_pred.astype('float32') / 255.0
             y_pred = model.predict(X_pred)
