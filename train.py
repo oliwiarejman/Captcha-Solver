@@ -33,7 +33,7 @@ def train_model(X_train, X_test, y_train, y_test):
 
     model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
-    history = model.fit(X_train, y_train, batch_size=150, epochs=200, validation_data=(X_test, y_test), shuffle=True)
+    history = model.fit(X_train, y_train, batch_size=200, epochs=300, validation_data=(X_test, y_test), shuffle=True)
 
     scores = model.evaluate(X_test, y_test, verbose=1)
     print('Test loss:', scores[0])
