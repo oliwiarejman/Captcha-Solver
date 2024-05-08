@@ -26,7 +26,7 @@ def train_model(X_train, X_test, y_train, y_test):
     model.add(Dense(1500))
     model.add(Activation('relu'))
     model.add(Dropout(0.2))
-    model.add(Dense(36))  # 36 klas: 26 liter + 10 cyfr
+    model.add(Dense(36))
     model.add(Activation('softmax'))
 
     model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(), metrics=['accuracy'])

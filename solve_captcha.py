@@ -22,7 +22,7 @@ def solve_captchas(data_path, model, label_encoder, output_file):
             f.write(f"{filename[:-4]}: {captcha_text}\n")
 
 if __name__ == "__main__":
-    data_path = "samples"
+    data_path = "data/val"
     output_file = "captcha_results.txt"
     X_train, X_test, y_train, y_test, label_encoder = preprocess_data(data_path)
     trained_model, training_history = train_model(X_train, X_test, y_train, y_test)
